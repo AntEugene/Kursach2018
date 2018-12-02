@@ -31,7 +31,6 @@ def Send_to_server(send_me):
 
 
 clientsock = socket.socket()
-data = Data_recv()
 Connect_server(HOST, PORT)
 data = Data_recv()
 Send_to_server(LOGIN)
