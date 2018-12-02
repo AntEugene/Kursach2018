@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+#<<<<<<< HEAD
 import socket
 import time
 from GUI import *
@@ -63,4 +63,4 @@ def Test(input):
 
 if __name__ == "__main__":
 	print(Test("IO"))
->>>>>>> 543cc7f46113735aafd5e4249e66bfa1e48d3534
+#>>>>>>> 543cc7f46113735aafd5e4249e66bfa1e48d3534
