@@ -1,4 +1,3 @@
-#<<<<<<< HEAD
 import socket
 import time
 from GUI import *
@@ -49,18 +48,3 @@ data = Data_recv()
 del Window
 data = Data_recv()
 clientsock.close()
-=======
-def Test(input):
-	if type(input) is not int:
-		raise TypeError("Type of num argument should be int")
-	if input == 1:
-		return input
-	elif input == 0:
-		return input
-	else:
-		output = -1
-		return output
-
-if __name__ == "__main__":
-	print(Test("IO"))
-#>>>>>>> 543cc7f46113735aafd5e4249e66bfa1e48d3534
