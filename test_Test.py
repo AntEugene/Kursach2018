@@ -1,4 +1,4 @@
-from Test import Test
+from GUI import *
 import pytest
 
 class TestIt:
