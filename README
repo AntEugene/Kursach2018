@@ -1,4 +1,34 @@
+Server initialization:
+
 mkdir data/
 g++ main.cpp -o server -lpthread
-./server
 
+Server start:
+
+./server [-p <port>]
+<port> 1024-65000
+
+API:
+
+#Commands available before successful login or regisration
+
++ Registered user: "REG <SHA1 hash><Username><>" max length of Username - 30, min - 1
+	- "Registration ok<>": registration successful
+	- "Bad hash<>": hash contains invalid characters
+	- "Bad name<>": The name contains invalid characters or does not match the allowed length
+	- "Name alredy taken<>": The name is already registered
+	- "Bad command<>": Invalid command
++ Log in: "LOGIN <SHA1 hash><Username><>" max length of Username - 30
+	- "Login ok<>": Login successful
+	- "Bad hash<>": hash contains invalid characters
+	- "Bad name<>": The name contains invalid characters or does not match the allowed length
+	- "Login not found<>": There is no such user in the system
+	- "Bad command<>": Invalid command
+	- "Bad password<>": Invalid password
+	- "Name online<>": This name is online
+
+#Commands available after successful login or regisration
+
++ log out: "LOGOUT<>"
+
+- 

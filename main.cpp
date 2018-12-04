@@ -362,7 +362,62 @@ int add_task(string name)
     ofstream fout(name.c_str(), ios_base::app);
 
 
+
     return 0;
+}
+
+int check_file(string name)
+{
+    int title_flag=-1;
+    int status_flag=-1;
+    int body_flag=-1;
+    string buff="";
+    name="data/"+name;
+    ifstream fin(name.c_str());
+    while (getline(fin,buff))
+    {
+        if (buff=="<title>")
+        {
+            title_flag=1;
+            while (getline(fin,buff))
+            {
+                if (buff=="</title>")
+                {
+                    title_flag=0;
+                    break;
+                }
+            }
+        }
+        if (buff=="<status>")
+        {
+            status_flag=1;
+            while (getline(fin,buff))
+            {
+                if (buff=="</status>")
+                {
+                    status_flag=0;
+                    break;
+                }
+            }
+        }
+        if (buff=="<body>")
+        {
+            body_flag=1;
+            while (getline(fin,buff))
+            {
+                if (buff=="</body>")
+                {
+                    body_flag=0;
+                    break;
+                }
+            }
+        }
+    }
+    if (title_flag==0&&status_flag==0&&body_flag==0)
+        return 0;
+    else
+        return -1;
+    
 }
 
 int edit_status(string name, string title)
@@ -425,8 +480,7 @@ string load_str(int Socket, int tryes)
         recv(Socket,buff,1024,MSG_DONTWAIT);
         tmp=buff;
         s_buff=s_buff+tmp;
-cout<<"s_buff"<<s_buff<<endl;
-cout<<s_buff[s_buff.size()-1]<<endl;
+
         if (s_buff[s_buff.size()-1]=='>' && s_buff[s_buff.size()-2]=='<')
 	    {
 		    s_buff.erase(s_buff.size()-2,2);
@@ -461,26 +515,10 @@ void authentication_user(int Socket, string name, int is_op)
     {
         if(stop_server) break;
         comm="";
-        RecvSize = recv(Socket,buff,1024,0);
-
-        cout<<"Socket "<<Socket<<" send (buff):"<<buff<<endl;
-        cout<<RecvSize;
-		tmp=buff;
-        s_buff=s_buff+tmp;
-        if (RecvSize>0)
-        {
-            memset(buff,0,1024);
-            usleep(1000000);
-            tryes--;
-            continue;
-        }
-        else if(!(drop >= 3))
-        {
-            drop++;
-            tryes--;
-            usleep(10000);
-            continue;
-        }
+        
+        s_buff=load_str(Socket,5);
+        cout<<"Socket "<<Socket<<" send (buff):"<<s_buff<<endl;
+        
 
         for (int i=0;i<s_buff.size();i++) //Парсинг управляющей команды
             {
@@ -544,6 +582,7 @@ void authentication_user(int Socket, string name, int is_op)
 
 void connected(int Socket)
 {
+    int send_flag=0;
     int is_op=0;
     int second_try=0;
     int drop=0;
@@ -608,22 +647,22 @@ void connected(int Socket)
 
                 if (flag==0)
                 {
-                    send (Socket,"Login ok",strlen("Login ok"),0);
+                    send_flag=send (Socket,"Login ok<>",strlen("Login ok<>"),0);
                     name=s_buff.substr(46,30);
                     break;
                 }
                 if (flag==-1)
-                    send (Socket,"Bad hash<>",strlen("Bad hash<>"),0);
+                    send_flag=send (Socket,"Bad hash<>",strlen("Bad hash<>"),0);
                 if (flag==-2)
-                    send (Socket,"Bad name<>",strlen("Bad name<>"),0);
+                    send_flag=send (Socket,"Bad name<>",strlen("Bad name<>"),0);
                 if (flag==-3)
-                    send (Socket,"Login not found<>",strlen("Login not found<>"),0);
+                    send_flag=send (Socket,"Login not found<>",strlen("Login not found<>"),0);
                 if (flag==-4)
-                    send (Socket,"Bad command<>",strlen("Bad command<>"),0);
+                    send_flag=send (Socket,"Bad command<>",strlen("Bad command<>"),0);
                 if (flag==-5)
-                    send (Socket,"Bad password<>",strlen("Bad password<>"),0);     
+                    send_flag=send (Socket,"Bad password<>",strlen("Bad password<>"),0);     
                 if (flag==-6)
-					send (Socket,"Name online<>",strlen("Name online<>"),0);
+					send_flag=send (Socket,"Name online<>",strlen("Name online<>"),0);
             }
 
 			if (comm=="REG")
@@ -633,18 +672,19 @@ void connected(int Socket)
 				flag=registered(s_buff,comm.size());
 				if (flag==0)
                 {
-					send (Socket,"Registration ok<>",strlen("Registration ok<>"),0);
+					send_flag=send (Socket,"Registration ok<>\0",strlen("Registration ok<>\0"),0);
+                    
                     name=s_buff.substr(44,30);
                     break;
                 }
 				if (flag==-1)
-					send (Socket,"Bad hash<>",strlen("Bad hash<>"),0);
+					send_flag=send (Socket,"Bad hash<>",strlen("Bad hash<>"),0);
 				if(flag==-2)
-					send (Socket,"Bad name<>",strlen("Bad name<>"),0);
+					send_flag=send (Socket,"Bad name<>",strlen("Bad name<>"),0);
 				if (flag==-3)
-					send (Socket,"Name alredy taken<>",strlen("Name alredy taken<>"),0);
+					send_flag=send (Socket,"Name alredy taken<>",strlen("Name alredy taken<>"),0);
                 if (flag==-4)
-					send (Socket,"Bad command<>",strlen("Bad command<>"),0);
+					send_flag=send (Socket,"Bad command<>",strlen("Bad command<>"),0);
 			}
 
 			s_buff="";
@@ -661,7 +701,8 @@ void connected(int Socket)
   */  
     if (name=="")
     {
-        send(Socket,"You disconnect!<>",strlen("You disconnect!<>"),0);
+        if (send_flag!=-1)
+            send(Socket,"You disconnect!<>",strlen("You disconnect!<>"),0);
         cout<<"Disconnect "<<Socket<<endl;
         close(Socket);
     }
@@ -689,8 +730,27 @@ void make_connect(int MasterSocket)
 }
 
 
-int main()
+int main(int argc, char *argv[])
 {
+    int port=18785;
+    if(argc==3 && (string)argv[1]=="-p"){
+        try
+        {
+            port=atoi(argv[2]);
+            if(port<1024 || port>65000)
+            {
+                cout << "Wrong value of port, 1024-65000 must be"<<endl;
+                cout<<"Use defaul port 18785"<<endl;
+            }
+            else
+            cout<<"Use port "<<port<<endl;
+        }
+        catch(...)
+        {}
+    }
+    else
+        cout<<"Use defaul port 18785"<<endl;
+    port=18785;
     cout<<"Server: started..."<<endl;
     user_list=(online_user_list*)malloc(sizeof(online_user_list*)+1);
     
@@ -702,7 +762,7 @@ int main()
         cout<<"Bad Socket!"<<endl;
        
     addr.sin_family = AF_INET;
-    addr.sin_port = htons(18785);
+    addr.sin_port = htons(port);
     addr.sin_addr.s_addr = htonl(INADDR_ANY);
     
     if(bind(listenerSocket, (struct sockaddr *)&addr, sizeof(addr)) < 0)
