@@ -1,0 +1,39 @@
+Server initialization:
+./install
+
+Server start:
+./server [-p <port>]
+<port> 1024-65000 /The choice of server port (defaul 18785)
+
+API:
+
+#Commands available before successful login or regisration
+
++ Registered user: "REG <SHA1 hash><Username><>" max length of Username - 30, min - 1
+	- "Registration ok<>": registration successful
+	- "Bad hash<>": hash contains invalid characters
+	- "Bad name<>": The name contains invalid characters or does not match the allowed length
+	- "Name alredy taken<>": The name is already registered
+	- "Bad command<>": Invalid command
++ Log in: "LOGIN <SHA1 hash><Username><>" max length of Username - 30
+	- "Login ok<>": Login successful
+	- "Bad hash<>": hash contains invalid characters
+	- "Bad name<>": The name contains invalid characters or does not match the allowed length
+	- "Login not found<>": There is no such user in the system
+	- "Bad command<>": Invalid command
+	- "Bad password<>": Invalid password
+	- "Name online<>": This name is online
+
+#Commands available after successful login or regisration
+
++ Log out: "LOGOUT<>"
++ Create new task:
++ Update:
++ Edit task status:
++ Get all task titles:
++ Get one task
+
+Server commands:
+
++ Getting server ostrich: "status"
++ Stopping the server: "stop"
