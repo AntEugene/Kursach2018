@@ -1,10 +1,10 @@
-import socket
-import hashlib
-from queue import PriorityQueue
+#import socket
+#import hashlib
+#from queue import PriorityQueue
 #import gi
 #gi.require_version('Gtk', '3.0')
 #from gi.repository import Gtk
-from pgi.repository import Gtk, GObject
+#from pgi.repository import Gtk, GObject
 
 class Socket_Client():
     #PORT = 18785
@@ -56,7 +56,6 @@ class Socket_Client():
         while data.queue[0] != 'EOF':
             data = Socket_client.Data_recv()
             client_file.write(data.get_novait())
-
 
 
 class GUI(Gtk.Window):
