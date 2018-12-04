@@ -4,4 +4,4 @@ python:
 script:
     - pytest
 install:
-    -pip install pgi
+    - pip install pgi
