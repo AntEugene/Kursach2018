@@ -1,12 +1,9 @@
 Server initialization:
-
-mkdir data/
-g++ main.cpp -o server -lpthread
+./install
 
 Server start:
-
 ./server [-p <port>]
-<port> 1024-65000
+<port> 1024-65000 /The choice of server port (defaul 18785)
 
 API:
 
@@ -29,6 +26,14 @@ API:
 
 #Commands available after successful login or regisration
 
-+ log out: "LOGOUT<>"
++ Log out: "LOGOUT<>"
++ Create new task:
++ Update:
++ Edit task status:
++ Get all task titles:
++ Get one task
 
-- 
+Server commands:
+
++ Getting server ostrich: "status"
++ Stopping the server: "stop"
