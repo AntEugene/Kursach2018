@@ -1,1 +1,1 @@
-Client with autorizaton.
+Client programm.
