@@ -112,21 +112,7 @@ class GUI(Gtk.Window):
     def REG_button_clicked(self, button):
         Socket_Client.Connect_server()
         Socket_Client.REG_user(self.entry_login.get_text(), self.entry_password.get_text())
-   
-
-#Socket_Client.Connect_server()
-Window = GUI()
-Window.connect('destroy', lambda w: Gtk.main_quit())
-Window.show_all()
-Gtk.main()
-data = PriorityQueue()
-data = Socket_Client.Data_recv()
-if data.queue[0] == 'Name online<>':
-    GUI.Error_msg(data.get_nowait())
-elif data.queue[0] == 'Bad hash<>':
-    GUI.Error_msg(data.get_nowait())
-elif data.queue[0] == 'Bad name<>':
-    GUI.Error_msg(data.get_nowait())
-elif data.queue[0] = 'Name alredy taken<>':
-    GUI.Error_msg(data.get_nowait())
-clientsock.close()
+        
+        
+def pyTest(input):
+    return input
