@@ -4,7 +4,6 @@ import hashlib
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk
-#from pgi.repository import Gtk, GObject
 
 class Socket_Client():
     #PORT = 18785
