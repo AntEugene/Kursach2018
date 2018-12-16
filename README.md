@@ -1,1 +1,1 @@
-Client programm.
+Client-server application programm.
