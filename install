@@ -1,5 +1,0 @@
-#!/bin/bash
-mkdir data/
-g++ main.cpp -o server -lpthread
-echo "Server initialization successful"
-
