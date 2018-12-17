@@ -6,12 +6,12 @@ python:
     - "3.6"
     
 before_install:
-    - sudo apt update -qq
-    - sudo apt install -y python-gi 
-    - sudo apt install -y python-gi-cairo
-    - sudo apt install -y python3-gi
-    - sudo apt install -y python3-gi-cairo
-    - sudo apt install -y gir1.2-gtk-3.0
+    - sudo apt-get update -qq
+    - sudo apt-get install -y python-gi 
+    - sudo apt-get install -y python-gi-cairo
+    - sudo apt-get install -y python3-gi
+    - sudo apt-get install -y python3-gi-cairo
+    - sudo apt-get install -y gir1.2-gtk-3.0
 install:
     - pip install pytest pytest-quickcheck  pytest-cov
     
