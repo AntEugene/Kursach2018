@@ -5,15 +5,10 @@ language: python
 python:
     - "3.6"
     
-before_install:
-    - sudo apt-get update -qq
-    - sudo apt-get install -y python-gi 
-    - sudo apt-get install -y python-gi-cairo
-    - sudo apt-get install -y python3-gi
-    - sudo apt-get install -y python3-gi-cairo
-    - sudo apt-get install -y gir1.2-gtk-3.0
-    
 install:
+    - virtualenv --python=python3 myvenv
+    - source myvenv/bin/activate
+    - pip install pygobject
     - pip install pytest pytest-quickcheck  pytest-cov
     
 script:
