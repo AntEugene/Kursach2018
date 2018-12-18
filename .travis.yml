@@ -17,7 +17,7 @@ install:
     - sudo apt-get install cmake
 
 script:
-    - mkdir
+    - mkdir build
     - cd build
     - cmake ..
     - cmake --build .
