@@ -9,19 +9,20 @@ os:
 compiler:
     - gcc
 
-env:
-    - TARGET_CPU=amd64 BUILD_CONFIGURATION=Release
-
 install:
     - sudo apt-get update -q
     - sudo apt-get install cmake
 
-script:
+build_script:
+    # скрипт сборки проекта:
     - mkdir build
     - cd build
-    - cmake ..
-    - cmake --build .
-    - ctest --output-on-failure
+    - cmake .. %CMAKE_CONFIGURE_FLAGS%
+    - cmake --build . %CMAKE_BUILD_FLAGS%
+
+test_script:
+    # скрипт тестирования проекта:
+    - ctest -C %CONFIGURATION% --output-on-failure
 
 after_success:
     - echo "success"
