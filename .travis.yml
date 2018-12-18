@@ -24,3 +24,6 @@ script:
     - cmake ..
     - cmake --build .
     - ctest --output-on-failure
+
+after_success:
+    - echo "success"
