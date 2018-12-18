@@ -17,6 +17,8 @@ install:
     - sudo apt-get install cmake
 
 script:
+    - git clone git@github.com:AntEugene/Kursach2018.git
+    - cd Kursach2018
     - mkdir build
     - cd build
     - cmake ..
