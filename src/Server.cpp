@@ -14,6 +14,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <stdlib.h>
+#include "calc.h"
 
 #include <openssl/sha.h>
 bool stop_server=false;
@@ -356,14 +357,9 @@ int del_task(string name, string title)
     return 0;
 }
 
-int add_task(string name)
+int Test::add_task(int id)
 {
-    name="data/"+name;
-    ofstream fout(name.c_str(), ios_base::app);
-
-
-
-    return 0;
+    return 12 + id;
 }
 
 int check_file(string name)

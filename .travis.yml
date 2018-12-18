@@ -1,7 +1,28 @@
-language: python
-python:
-    - "3.6"
+dist:	trusty
+sudo:	true
+
+language: cpp
+
+os:
+    - linux
+
+compiler:
+    - gcc
+
+env:
+    - TARGET_CPU=amd64 BUILD_CONFIGURATION=Debug
+    - TARGET_CPU=amd64 BUILD_CONFIGURATION=Release
+    - TARGET_CPU=x86 BUILD_CONFIGURATION=Debug
+    - TARGET_CPU=x86 BUILD_CONFIGURATION=Release
+
 install:
-    - pip install pytest pytest-quickcheck  pytest-cov
+    - source ci/travis/install-$TRAVIS_OS_NAME.sh
+    - sudo apt-get update -q
+    - sudo apt-get install cmake
+
 script:
-    - pytest
+    - mkdir
+    - cd build
+    - cmake ..
+    - cmake --build .
+    - ctest --output-on-failure
