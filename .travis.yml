@@ -16,7 +16,6 @@ env:
     - TARGET_CPU=x86 BUILD_CONFIGURATION=Release
 
 install:
-    - source ci/travis/install-$TRAVIS_OS_NAME.sh
     - sudo apt-get update -q
     - sudo apt-get install cmake
 
